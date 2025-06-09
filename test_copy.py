@@ -8,7 +8,7 @@ import pywt
 import time
 
 st.set_page_config(page_title="Live Health Monitor", layout="wide")
-st.title("💓 Live Health Monitor (Deployed)")
+st.title("💓 Live Health Monitor")
 
 # ✅ URL of deployed Flask server
 API_URL = "https://health-monitor-7lno.onrender.com/latest"  # Replace with your Flask endpoint
@@ -16,7 +16,7 @@ API_URL = "https://health-monitor-7lno.onrender.com/latest"  # Replace with your
 # --- 1. Fetch IR/RED values from deployed Flask server ---
 def fetch_data():
     try:
-        response = requests.get(API_URL, timeout=5)
+        response = requests.get(API_URL, timeout=10)
         if response.status_code == 200:
             data = response.json()['data']
             ir, red = zip(*data)
@@ -31,7 +31,7 @@ def fetch_data():
 ir_values, red_values = fetch_data()
 
 if ir_values is None or len(ir_values) < 100:
-    st.warning("Waiting for sufficient data (600+ IR > 100000 readings)...")
+    st.warning("Waiting for sufficient data...")
     st.stop()
 
 # --- 2. Signal Filtering / Enhancement ---
